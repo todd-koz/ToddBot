@@ -1,0 +1,16 @@
+{
+    "Longsword": {
+        "name": "Longsword",
+        "damage": "1d8 slashing",
+        "cost": "15 gp",
+        "weight": "3 lb.",
+        "properties": "Versatile (1d10)"
+    },
+    "Whip": {
+        "name": "Whip",
+        "damage": "1d4 slashing",
+        "cost": "2 gp",
+        "weight": "3 lb.",
+        "properties": "Finesse, reach"
+    }
+}
