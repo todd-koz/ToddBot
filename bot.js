@@ -2,7 +2,7 @@ const botSettings = require("./botsettings.json");
 const Discord = require("discord.js");
 const fs = require("fs");
 
-const prefix = botSettings.prefix;
+const prefix = "!";
 
 const bot = new Discord.Client({disableEveryone: true});
 bot.commands = new Discord.Collection();
@@ -53,7 +53,7 @@ bot.on("message", async message => {
   //console.log(command);
   //console.log(args);
 
-  if(!command.startsWith(botSettings.prefix)) return; //only check for commands beginning with the prefix, here !
+  if(!command.startsWith(prefix)) return; //only check for commands beginning with the prefix, here !
 
   let cmd = bot.commands.get(command.slice(prefix.length)); //slices the prefix off the command word
   if(cmd) cmd.run(bot, message, args);
