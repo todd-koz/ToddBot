@@ -5,6 +5,12 @@ const Discord = module.require("discord.js");
 module.exports.run = async (bot, message, args) => {
   let item = message.content.slice(9);
 
+  playerID = message.author.username;
+  if(message.author.username == "toddkoz" && message.mentions.users.array().length > 0){
+    playerID = message.mentions.users.array()[0]["username"];
+  };
+
+
   let weaponList = bot.items["Items"]["Weapons Table"]["table"]["Name"];
   let armorList = bot.items["Items"]["Armor Table"]["table"]["Name"];
   let adventuringList = bot.items["Items"]["Adventuring Gear Table"]["table"]["Name"];
@@ -34,17 +40,31 @@ module.exports.run = async (bot, message, args) => {
   let itemData = bot.items["Items"][`${itemtype} Table`]["table"];
   let itemIndex = itemData["Name"].indexOf(item);
 
-  keyname1 = Object.keys(itemData)[1];
+  if(Object.keys(bot.myitems).includes(playerID) != true){
+  bot.myitems[playerID] = {
+    
+      }
+}
 
-  bot.myitems[item] = {
+
+  console.log(typeof bot.myitems[playerID] != "undefined");
+  if (typeof bot.myitems[playerID] != "undefined") {
+  if(Object.keys(bot.myitems[playerID]).includes(item)){
+     itemQuantity = bot.myitems[playerID][item]["quantity"] + 1;
+   }else{itemQuantity = 1}}else{itemQuantity = 1};
+   console.log(itemQuantity);
+
+
+bot.myitems[playerID][item] = {
     name: itemData[Object.keys(itemData)[0]][itemIndex],
     cost: itemData[Object.keys(itemData)[1]][itemIndex],
     weight: itemData[Object.keys(itemData)[2]][itemIndex],
-  }
+    quantity: itemQuantity
+}
 
   fs.writeFile("./json/myitems.json", JSON.stringify(bot.myitems, null, 4), err => {
     if(err) throw err;
-    message.channel.send("I have added this item!")
+    message.channel.send(`I have added ${item} to your inventory!`)
   });
 }
 

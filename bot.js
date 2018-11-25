@@ -10,6 +10,10 @@ bot.races = require("./json/races.json");
 bot.spells = require("./json/spells.json");
 bot.items = require("./json/items2.json");
 bot.myitems = require("./json/myitems.json");
+bot.mypurse = require("./json/mypurse.json");
+bot.spellbook = require("./json/spellbook.json");
+bot.mycommands = require("./json/mycommands.json");
+
 
 fs.readdir("./cmds/", (err, files) => {
   if(err) console.error(err);
@@ -57,6 +61,25 @@ bot.on("message", async message => {
 
   let cmd = bot.commands.get(command.slice(prefix.length)); //slices the prefix off the command word
   if(cmd) cmd.run(bot, message, args);
+
+  const playerID = message.author.username;
+
+  if(command === `${prefix}buyitem`){
+    bot.commands.get("additem").run(bot, message, args);
+    args[0] = parseInt(bot.myitems[playerID][args[0]]["cost"]) * -1;
+    bot.commands.get("addcoin").run(bot, message, args);
+  }
+
+  if(command === `${prefix}sellitem`){
+    if(Object.keys(bot.myitems[playerID]).includes(args.join(" ")) != true){
+      message.channel.send(`You don't have ${args.join(" ")} to sell!`);
+      return;
+    }
+    args[0] = parseInt(bot.myitems[playerID][args[0]]["cost"]) * 0.5;
+    bot.commands.get("addcoin").run(bot, message, args);
+    args = messageArray.slice(1);
+    bot.commands.get("deleteitem").run(bot, message, args);
+  }
 
   if(command === `${prefix}cletus`) {
     message.channel.send("Well tickle my tits, Cletus the Farm-raised motherfucker is up in this joint and he's not here to make friends, just get goat bitches and make bank. Roll for initiative dickwads.", {

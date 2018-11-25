@@ -1,0 +1,14 @@
+{
+    "toddkoz": {
+        "Aid": {
+            "name": "Aid",
+            "level": "2",
+            "readied": "no"
+        },
+        "Antimagic Field": {
+            "name": "Antimagic Field",
+            "level": "8",
+            "readied": "no"
+        }
+    }
+}
